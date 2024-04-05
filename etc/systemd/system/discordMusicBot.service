@@ -1,0 +1,16 @@
+[Unit]
+Description=Discord Music Bot
+After=network.target
+
+[Service]
+WorkingDirectory=/home/python/muse/
+
+User=python
+Group=python
+
+Restart=always
+
+ExecStart=/usr/bin/screen -DmS discordMusicBot /usr/local/bin/yarn start
+
+[Install]
+WantedBy=multi-user.target

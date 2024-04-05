@@ -1,0 +1,19 @@
+[Unit]
+Description=Terraria Server
+After=network.target
+
+[Service]
+WorkingDirectory=/home/minecraft/Terraria
+
+User=minecraft
+Group=minecraft
+
+Restart=always
+KillSignal=SIGCONT
+
+ExecStart=/usr/bin/screen -DmS terraria /usr/bin/mono --server --gc=sgen -O=all ./TerrariaServer.exe -config serverconfig.txt
+
+ExecStop=/usr/bin/screen -p 0 -S terraria -X eval 'stuff "exit"\015'
+
+[Install]
+WantedBy=multi-user.target

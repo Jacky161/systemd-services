@@ -1,0 +1,20 @@
+[Unit]
+Description=Minecraft Backup: %i
+Requires=minecraft@%i.service
+After=minecraft@%i.service
+BindsTo=minecraft@%i.service
+
+[Service]
+WorkingDirectory=/home/minecraft/instances/%i
+
+User=minecraft
+Group=minecraft
+Type=oneshot
+
+ExecStart=/usr/bin/screen -p 0 -S mc-%i -X eval 'stuff "save-off"\015'
+ExecStart=/bin/sleep 2
+ExecStart=/usr/bin/screen -p 0 -S mc-%i -X eval 'stuff "save-all"\015'
+ExecStart=/bin/sleep 5
+ExecStart=/usr/bin/rdiff-backup --exclude /home/minecraft/instances/%i/plugins/dynmap/web /home/minecraft/instances/%i /home/minecraft/backups/%i
+ExecStart=/usr/bin/screen -p 0 -S mc-%i -X eval 'stuff "save-on"\015'
+ExecStart=/usr/bin/rdiff-backup --remove-older-than 14D --force /home/minecraft/backups/%i

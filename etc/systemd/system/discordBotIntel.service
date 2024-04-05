@@ -1,0 +1,16 @@
+[Unit]
+Description=Discord Bot Intel
+After=network.target
+
+[Service]
+WorkingDirectory=/home/python/robey
+
+User=python
+Group=python
+
+Restart=always
+
+ExecStart=/usr/bin/screen -DmS discordBotIntel /home/python/robey/.venv/bin/python intel.py
+
+[Install]
+WantedBy=multi-user.target
